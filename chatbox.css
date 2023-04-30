@@ -31,7 +31,7 @@
 }
 
 .type-chat {
-    box-sizing:inherit;
+    box-sizing: inherit;
     flex: 5;
     resize: none;
     font-size: 25px;
@@ -42,7 +42,7 @@
     text-align: center;
     padding-top: 10%;
     flex: 1;
-    border:1px solid black;
+    border: 1px solid black;
     user-select: none;
     cursor: pointer;
 }
@@ -54,15 +54,15 @@
 }
 
 .chat-content-mine {
-    align-items:end;
+    align-items: end;
 }
 
-.chat-content-mine > .chat-balloon{
+.chat-content-mine>.chat-balloon {
     background-color: rgb(212, 243, 255);
 }
 
-.chat-profile{
-    margin-left: 15px;    
+.chat-profile {
+    margin-left: 15px;
     margin-top: 10px;
 }
 
@@ -76,4 +76,24 @@
     max-width: 50%;
     padding: 10px;
     border-radius: 15px;
+}
+
+.dividing-line {
+    margin-top: 10px;
+    min-height: 10px;
+    display: flex;
+}
+
+.line {
+    flex:1px;
+    margin-top: 15px;
+    height: 1px;
+    width: 100%;
+    background-color: rgb(132, 132, 132);
+}
+
+.dividing-line-content {
+    padding: 0 5px 0 5px;
+    position:static;
+    color: rgb(132, 132, 132);
 }

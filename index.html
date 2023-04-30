@@ -4,38 +4,190 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat Server Tester</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .chatbox>* {
+            margin: 0;
+            padding: 0;
+        }
+
+        .chatbox {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            height: 800px;
+            border: 3px solid black;
+        }
+
+        .chatbox-header {
+            flex: 5;
+        }
+
+        .chatbox-footer {
+            flex: 1;
+        }
+
+        .input-chat-wrap {
+            display: flex;
+            height: 100%;
+        }
+
+        .type-chat {
+            box-sizing: inherit;
+            flex: 5;
+            resize: none;
+            font-size: 25px;
+            padding: 10px;
+        }
+
+        .sendBtn {
+            text-align: center;
+            padding-top: 10%;
+            flex: 1;
+            border: 1px solid black;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .chat-content-wrap {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        .chat-content-mine {
+            align-items: end;
+        }
+
+        .chat-content-mine>.chat-balloon {
+            background-color: rgb(212, 243, 255);
+        }
+
+        .chat-profile {
+            margin-top: 10px;
+            margin-left: 12px;
+            margin-top: 10px;
+        }
+
+        .chat-balloon {
+            margin: 8px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            background-color: rgb(255, 253, 212);
+            width: max-content;
+            height: max-content;
+            max-width: 50%;
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .dividing-line {
+            margin-top: 7px;
+            min-height: 10px;
+            display: flex;
+        }
+
+        .line {
+            flex: 1px;
+            margin-top: 15px;
+            height: 1px;
+            width: 100%;
+            background-color: rgb(132, 132, 132);
+        }
+
+        .dividing-line-content {
+            padding: 0 5px 0 5px;
+            position: static;
+            color: rgb(132, 132, 132);
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-</head>
-
-<body>
     <script>
         const print = (value) => console.log(value)
-        var socket = io();
-
-        //login
-        socket.emit('login', {
+        var socket = io()
+        let isLogin = false
+        let clientData = {
             name: `Guest${parseInt(Math.random() * 1000)}`,
             uid: `${parseInt(Math.random() * 1000)}`
-        })
+        }
+
+        //login
+        socket.emit('login', clientData)
         socket.on("login", function (data) {
             if (data) {
-                print("Login Completed")
+                isLogin = true
+                dividLine(`${clientData.name}님이 입장하셨습니다`)
             } else {
-                print("Login Failed")
+                isLogin = false
             }
         })
 
-
         //chat
         socket.on('chat', (msg) => {
-            print(`[ ${msg.from.name} ]\t>> ${msg.content}`)
+            receiveChat(msg)
         })
 
-        function Chat(content) {
-            socket.emit('chat', content)
+        socket.on('join', (name) => {
+            dividLine(`${name}님이 입장하셨습니다`)
+        })
+
+        function receiveChat(msg) {
+            $('.chatbox-header').append($(`
+            <div class="chat-content-wrap chat-content-yours">
+                <div class="chat-profile">${msg.from.name}</div>
+                <div class="chat-balloon">${msg.content}</div>
+            </div>
+            `))
         }
+
+        function sendChat(content) {
+            socket.emit('chat', content)
+            $('.chatbox-header').append($(`
+            <div class="chat-content-wrap chat-content-mine">
+                <div class="chat-balloon">${content}</div>
+            </div>
+            `))
+        }
+
+        function dividLine(content) {
+            $('.chatbox-header').append($(`
+            <div class="dividing-line">
+                <div class="line"></div>
+                <div class="dividing-line-content">${content}</div>
+                <div class="line"></div>
+            </div>
+            `))
+        }
+
+        $(document).ready(() => {
+            $('.sendBtn').click(() => {
+                const _content = $('.type-chat').val()
+                sendChat(_content)
+                $('.type-chat').val('')
+            })
+        })
     </script>
+</head>
+
+<body>
+    <!--CHAT-->
+    <div class="chatbox">
+        <div class="chatbox-header">
+
+        </div>
+        <div class="chatbox-footer">
+            <div class="input-chat-wrap">
+                <textarea class="type-chat" rows="3"></textarea>
+                <div class="sendBtn">Send</div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

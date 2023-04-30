@@ -14,6 +14,7 @@ io.on('connection', (client) => {
         client.name = data.name
         print(`[Onjoin] >> ${client.name}<${client.uid}>`)
         client.emit('login', true)
+        client.broadcast.emit('join', client.name)
     })
 
     client.on('chat', (data) => {
