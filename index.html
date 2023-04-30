@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Native WebSocket Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <script>
+        const print = (value) => console.log(value)
+        var socket = io();
+
+        socket.emit('login', {
+            name: `Guest${parseInt(Math.random() * 1000)}`,
+            uid: `${parseInt(Math.random() * 1000)}`
+        })
+
+        socket.on("login", function (data) {
+            if (data) {
+                print("Login Completed")
+            } else {
+                print("Login Failed")
+            }
+        })
+
+        socket.on('chat', (msg) => {
+            print(`[ ${msg.from.name} ]\t>> ${msg.content}`)
+        })
+
+        function Chat(content) {
+            socket.emit('chat', content)
+        }
+    </script>
+</body>
+
+</html>
