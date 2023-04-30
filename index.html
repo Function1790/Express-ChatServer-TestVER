@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Native WebSocket Example</title>
+    <title>Chat Server Tester</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -13,11 +13,11 @@
         const print = (value) => console.log(value)
         var socket = io();
 
+        //login
         socket.emit('login', {
             name: `Guest${parseInt(Math.random() * 1000)}`,
             uid: `${parseInt(Math.random() * 1000)}`
         })
-
         socket.on("login", function (data) {
             if (data) {
                 print("Login Completed")
@@ -26,6 +26,8 @@
             }
         })
 
+
+        //chat
         socket.on('chat', (msg) => {
             print(`[ ${msg.from.name} ]\t>> ${msg.content}`)
         })

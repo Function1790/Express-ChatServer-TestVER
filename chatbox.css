@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.chatbox>* {
+    margin: 0;
+    padding: 0;
+}
+
+.chatbox {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 800px;
+    border: 3px solid black;
+}
+
+.chatbox-header {
+    flex: 5;
+}
+
+.chatbox-footer {
+    flex: 1;
+}
+
+.input-chat-wrap {
+    display: flex;
+    height: 100%;
+}
+
+.type-chat {
+    box-sizing:inherit;
+    flex: 5;
+    resize: none;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.sendBtn {
+    text-align: center;
+    padding-top: 10%;
+    flex: 1;
+    border:1px solid black;
+    user-select: none;
+    cursor: pointer;
+}
+
+.chat-content-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.chat-content-mine {
+    align-items:end;
+}
+
+.chat-content-mine > .chat-balloon{
+    background-color: rgb(212, 243, 255);
+}
+
+.chat-profile{
+    margin-left: 15px;    
+    margin-top: 10px;
+}
+
+.chat-balloon {
+    margin: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: rgb(255, 253, 212);
+    width: max-content;
+    height: max-content;
+    max-width: 50%;
+    padding: 10px;
+    border-radius: 15px;
+}
